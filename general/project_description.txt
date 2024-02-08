@@ -1,0 +1,17 @@
+Name of the project: " Chess by Karolina Kleciak"
+
+Team members | Roles: 
+Karolina Kleciak - Software developer, Tester
+
+Project description :
+Chess game for two players similar to chess.com
+
+Main features:
+ - playing chess between two players
+ - training mode: showing endangered figures
+
+Additional functionalites: 
+ - Al engine playing as an opponent
+ 
+Programing languages :
+ - Python
