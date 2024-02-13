@@ -33,10 +33,15 @@ def main():
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
     gs = ChessEngine.GameState()
+    validMoves = gs.getValidMoves()
+    moveMade = False
+
+
     loadImages()
     running = True
     sqSelected = ()  # now square is selected, keep track of the last click of the user (tuple: (row, col))
     playerClicks = []  # keep track of player clicks (two tuples: [(6,4) ,(4,4)]
+
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
@@ -46,17 +51,26 @@ def main():
                 col = location[0] // SQ_SIZE
                 row = location[1] // SQ_SIZE
                 if sqSelected == (row, col):  # the user clicked the same square twice
-                    sqSelected = ()  # deselectd
+                    sqSelected = ()
                     playerClicks = []  # Clear players click
                 else:
                     sqSelected = (row, col)
                     playerClicks.append(sqSelected)  # append for both 1st and 2nd clicks
-                    if len(playerClicks) == 2:  # after 2nd click
-                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
-                        print(move.getChessNotation())
+                if len(playerClicks) == 2:  # after 2nd click
+                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                    print(move.getChessNotation())
+                    if move in validMoves:
                         gs.makeMove(move)
-                        sqSelected = ()  # reset user clicks
-                        playerClicks = []
+                        moveMade = True
+                    sqSelected = ()  # reset user clicks
+                    playerClicks = []
+            elif e.type == p.KEYDOWN:
+                if e.key == p.K_z:
+                    gs.undoMove()
+                    moveMade = True
+        if moveMade:
+            validMoves = gs.getValidMoves()
+            moveMade = False
 
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
