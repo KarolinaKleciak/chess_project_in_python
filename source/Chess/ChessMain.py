@@ -64,6 +64,8 @@ def main():
                         moveMade = True
                     sqSelected = ()  # reset user clicks
                     playerClicks = []
+                else:
+                    playerClicks = [sqSelected]
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z:
                     gs.undoMove()
